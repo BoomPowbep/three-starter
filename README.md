@@ -1,5 +1,6 @@
 # Virtual World
 
+A virtual world running on ThreeJS
 
 
 ## Setting up
