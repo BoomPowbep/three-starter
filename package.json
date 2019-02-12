@@ -1,7 +1,7 @@
 {
-  "name": "webpack-starter",
+  "name": "virtual-world",
   "version": "1.0.0",
-  "description": "Webpack configuration that uses Encore.",
+  "description": "A virtual world running on ThreeJS.",
   "main": "index.js",
   "scripts": {
     "prod": "encore production",
