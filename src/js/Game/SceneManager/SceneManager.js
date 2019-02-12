@@ -8,7 +8,7 @@ export default class SceneManager {
      */
     constructor(isDebugMode) {
         this._scene = new THREE.Scene();
-        this._scene.background = new THREE.Color( 0x000000 );
+        this._scene.background = new THREE.Color( 0xff3399 );
     };
 
     addGeometries(geometries) {

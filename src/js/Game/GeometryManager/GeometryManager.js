@@ -12,6 +12,8 @@ export default class GeometryManager {
         this._geometries = [];
 
         if (isDebugMode) this._createDebugElements();
+
+        this._createGroundSurface();
     };
 
     /**
@@ -21,6 +23,22 @@ export default class GeometryManager {
     _createDebugElements() {
         let axesHelper = new THREE.AxesHelper(2);
         this._registerGeometry(axesHelper);
+    }
+
+    /**
+     * Creates the ground surface.
+     * @private
+     */
+    _createGroundSurface() {
+        let groundShape = new THREE.PlaneGeometry(50, 50);
+        let groundMaterial = new THREE.MeshLambertMaterial({
+            color: 0xe67300,
+            side: THREE.FrontSide
+        });
+        let ground = new THREE.Mesh(groundShape, groundMaterial);
+        ground.receiveShadow = true;
+        ground.rotation.x -= Math.PI / 2;
+        this._registerGeometry(ground);
     }
 
     /**

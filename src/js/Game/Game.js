@@ -20,7 +20,7 @@ export default class Game {
         this.highPerf = highPerf;
 
         if (isDebugMode) {
-            // Initialisation de Stats
+            // Init Stats.js
             this.stats = new Stats();
             this.stats.showPanel(0); // 0 = fps
             document.body.appendChild(this.stats.dom);
@@ -55,7 +55,7 @@ export default class Game {
         this.sceneManager.addGeometries(this.geometryManager.geometries);
 
         this.cameraManager.setPosition(4, 2, 4);
-        this.cameraManager.lookAtSomething(this.sceneManager.scene);
+        this.cameraManager.lookAtSomething( new THREE.Vector3(0, 0, 0) );
     }
 
     /**
