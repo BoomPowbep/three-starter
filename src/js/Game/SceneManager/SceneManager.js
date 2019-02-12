@@ -8,12 +8,12 @@ export default class SceneManager {
      */
     constructor(isDebugMode) {
         this._scene = new THREE.Scene();
-        this._scene.background = new THREE.Color( 0xff3399 );
+        this._scene.background = new THREE.Color( 0x000000 );
     };
 
-    addGeometries(geometries) {
-        for(let geometry of geometries) {
-            this._scene.add(geometry);
+    addThings(things) {
+        for(let thing of things) {
+            this._scene.add(thing);
         }
     }
 
