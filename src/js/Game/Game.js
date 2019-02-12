@@ -52,7 +52,9 @@ export default class Game {
         document.body.appendChild(this.renderer.domElement);
 
 
-        this.sceneManager.addGeometries(this.geometryManager.geometries);
+        this.sceneManager.addThings(this.geometryManager.geometries);
+
+        this.sceneManager.addThings(this.lightingManager.lights);
 
         this.cameraManager.setPosition(4, 2, 4);
         this.cameraManager.lookAtSomething( new THREE.Vector3(0, 0, 0) );
