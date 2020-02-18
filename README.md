@@ -1,6 +1,6 @@
-# Virtual World
+# Three Starter
 
-A virtual world running on ThreeJS
+ThreeJS
 
 
 ## Setting up
