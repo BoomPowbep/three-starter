@@ -1,17 +1,17 @@
 # Three Starter
 
-ThreeJS
+A ThreeJS starter with watch & prod build.
 
 
 ## Setting up
 First, install dependencies.
 
-	npm install
+	npm i
 
 ## Run
 #### Watch for development
 
-	npm run watch
+	npm run dev
 
 #### Build for production
 

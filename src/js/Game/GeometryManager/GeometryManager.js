@@ -2,11 +2,14 @@ import * as THREE from 'three';
 
 export default class GeometryManager {
 
+    // ------------------------------------------------------------------- OBJECT INITIALIZATION
+
     /**
-     *
+     * Construction.
      * @param isDebugMode
      */
     constructor(isDebugMode) {
+        console.log('🔳 Geometry constructor');
 
         // Array containing all geometries.
         this._geometries = [];
@@ -15,6 +18,8 @@ export default class GeometryManager {
 
         this._createGroundSurface();
     };
+
+    // ------------------------------------------------------------------- DEBUG
 
     /**
      * Creates geometries dedicated to debugging.
@@ -28,8 +33,10 @@ export default class GeometryManager {
         this._registerGeometry(gridHelper);
     }
 
+    // ------------------------------------------------------------------- MAKE
+
     /**
-     * Creates the ground surface.
+     * Creates a basic ground surface.
      * @private
      */
     _createGroundSurface() {
@@ -45,13 +52,15 @@ export default class GeometryManager {
     }
 
     /**
-     * Adds a geometry to the geometries list.
+     * Adds the parameter geometry to the active geometries list.
      * @param geometry
      * @private
      */
     _registerGeometry(geometry) {
         this._geometries.push(geometry);
     }
+
+    // ------------------------------------------------------------------- GETTERS
 
     /**
      * Returns the array containing all the geometries.

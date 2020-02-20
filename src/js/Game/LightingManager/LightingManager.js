@@ -2,19 +2,24 @@ import * as THREE from 'three';
 
 export default class LightingManager {
 
+    // ------------------------------------------------------------------- OBJECT INITIALIZATION
+
     /**
-     *
+     * Constructor.
      * @param isDebugMode
      */
     constructor(isDebugMode) {
+        console.log('🔦 LightingManager constructor');
 
         this._lights = [];
 
         this._createAmbientLight();
     };
 
+    // ------------------------------------------------------------------- MAKE
+
     /**
-     *
+     * Create a basic generic ambient light.
      * @private
      */
     _createAmbientLight() {
@@ -23,7 +28,7 @@ export default class LightingManager {
     }
 
     /**
-     *
+     * Register a new light.
      * @param light
      * @private
      */
@@ -31,8 +36,10 @@ export default class LightingManager {
         this._lights.push(light);
     }
 
+    // ------------------------------------------------------------------- GETTERS
+
     /**
-     *
+     * Returns the array containing the lighting.
      * @returns {Array}
      */
     get lights() {

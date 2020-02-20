@@ -1,31 +1,32 @@
 {
-  "name": "virtual-world",
+  "name": "three-starter",
   "version": "1.0.0",
-  "description": "A virtual world running on ThreeJS.",
+  "description": "A ThreeJS starter with watch & prod build.",
   "main": "index.js",
   "scripts": {
     "prod": "encore production",
-    "watch": "encore dev --watch"
+    "dev": "encore dev --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BoomPowbep/webpack-starter.git"
+    "url": "git+https://github.com/BoomPowbep/three-starter.git"
   },
   "author": "Mickaël Debalme",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/BoomPowbep/webpack-starter/issues"
+    "url": "https://github.com/BoomPowbep/three-starter/issues"
   },
-  "homepage": "https://github.com/BoomPowbep/webpack-starter#readme",
+  "homepage": "https://github.com/BoomPowbep/three-starter#readme",
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.22.2",
-    "node-sass": "^4.11.0",
-    "sass-loader": "^7.1.0"
+    "@symfony/webpack-encore": "^0.28.2",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^7.0.1"
   },
   "dependencies": {
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "stats-js": "^1.0.0",
-    "three": "^0.101.1"
+    "gsap": "^3.1.1",
+    "stats-js": "^1.0.1",
+    "three": "^0.113.2"
   }
 }

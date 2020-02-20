@@ -2,16 +2,22 @@ import * as THREE from 'three';
 
 export default class CameraManager {
 
+    // ------------------------------------------------------------------- OBJECT INITIALIZATION
+
     /**
-     *
+     * Constructor
      * @param isDebugMode
      */
     constructor(isDebugMode) {
+        console.log('🎥 CameraManager constructor');
+
         this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 65);
     };
 
+    // ------------------------------------------------------------------- CAMERA MOTION
+
     /**
-     *
+     * Set the camera position.
      * @param x
      * @param y
      * @param z
@@ -23,16 +29,18 @@ export default class CameraManager {
     }
 
     /**
-     *
+     * Make the camera look at a point.
      * @param thing
      */
     lookAtSomething(thing) {
         this._camera.lookAt(thing);
     }
 
+    // ------------------------------------------------------------------- GETTERS
+
     /**
-     *
-     * @returns {THREE.PerspectiveCamera|PerspectiveCamera}
+     * Returns the camera object.
+     * @returns {PerspectiveCamera}
      */
     get camera() {
         return this._camera;

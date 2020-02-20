@@ -1,2 +1,6 @@
-@import 'essentials/variables';
-@import 'essentials/main';
+// Common
+@import 'resources/variables';
+@import 'resources/mixins';
+
+// Main
+@import 'main/main';
