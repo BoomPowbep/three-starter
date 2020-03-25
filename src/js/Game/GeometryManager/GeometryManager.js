@@ -16,7 +16,7 @@ export default class GeometryManager {
 
         if (isDebugMode) this._createDebugElements();
 
-        this._createGroundSurface();
+        // this._createGroundSurface();
     };
 
     // ------------------------------------------------------------------- DEBUG

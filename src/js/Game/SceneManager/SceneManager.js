@@ -12,7 +12,7 @@ export default class SceneManager {
         console.log('🌴 SceneManager constructor');
 
         this._scene = new THREE.Scene();
-        this._scene.background = new THREE.Color( 0x000000 );
+        this._scene.background = new THREE.Color( 0xFF69B4 );
     };
 
     // ------------------------------------------------------------------- MAKE

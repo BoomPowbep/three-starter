@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import Stats from 'stats-js';
+import * as dat from 'dat.gui';
 
 import CameraManager from './CameraManager/CameraManager';
 import ControlsManager from './ControlsManager/ControlsManager';
 import GeometryManager from './GeometryManager/GeometryManager';
+import ModelManager from './ModelManager/ModelManager';
 import LightingManager from './LightingManager/LightingManager';
 import SceneManager from './SceneManager/SceneManager';
 
@@ -27,12 +29,15 @@ export default class Game {
             this.stats = new Stats();
             this.stats.showPanel(0); // 0 = print fps
             document.body.appendChild(this.stats.dom);
+
+            this.gui = new dat.GUI();
         }
 
         // Game components
         this.cameraManager = new CameraManager(isDebugMode);
         this.controlsManager = new ControlsManager(isDebugMode);
         this.geometryManager = new GeometryManager(isDebugMode);
+        this.modelManager = new ModelManager(isDebugMode);
         this.lightingManager = new LightingManager(isDebugMode);
         this.sceneManager = new SceneManager(isDebugMode);
 
@@ -57,12 +62,16 @@ export default class Game {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
+        // Models init
+        this.modelManager.loadModel('models/Fox.glb');
+
         // Scene init
         this.sceneManager.addThings(this.geometryManager.geometries);
+        this.sceneManager.addThings(this.modelManager.models);
         this.sceneManager.addThings(this.lightingManager.lights);
 
         // Camera init
-        this.cameraManager.setPosition(4, 2, 4);
+        this.cameraManager.setPosition(0, 5, 10);
         this.cameraManager.lookAtSomething( new THREE.Vector3(0, 0, 0) );
     }
 

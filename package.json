@@ -23,6 +23,7 @@
     "sass-loader": "^7.0.1"
   },
   "dependencies": {
+    "dat.gui": "^0.7.6",
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
     "gsap": "^3.1.1",
