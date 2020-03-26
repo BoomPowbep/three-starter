@@ -16,7 +16,7 @@ export default class GeometryManager {
 
         if (isDebugMode) this._createDebugElements();
 
-        // this._createGroundSurface();
+        this._createGroundSurface();
     };
 
     // ------------------------------------------------------------------- DEBUG
@@ -41,7 +41,7 @@ export default class GeometryManager {
      */
     _createGroundSurface() {
         let groundShape = new THREE.PlaneGeometry(50, 50);
-        let groundMaterial = new THREE.MeshLambertMaterial({
+        let groundMaterial = new THREE.MeshPhongMaterial({
             color: 0xe67300,
             side: THREE.FrontSide
         });

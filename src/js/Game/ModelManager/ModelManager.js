@@ -12,7 +12,7 @@ class Model {
      * @param scaleFactor
      * @param position
      */
-    constructor(path, scaleFactor = 1, position = {x: 0, y: 0, z: 0}) {
+    constructor(path, scaleFactor = .01, position = {x: 0, y: 0, z: 0}) {
         this.path = path;
         this.scaleFactor = scaleFactor;
         this.position = position;
@@ -63,6 +63,9 @@ class ModelManager {
                     object.scene.position.x = model.position.x;
                     object.scene.position.y = model.position.y;
                     object.scene.position.z = model.position.z;
+
+                    // Shadow
+                    object.scene.castShadow = true;
 
                     this._registerModel(object.scene);
 

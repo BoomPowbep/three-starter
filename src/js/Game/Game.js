@@ -22,9 +22,10 @@ export default class Game {
     constructor(isDebugMode = true, highPerf = true) {
         console.log('🎮 Game constructor');
 
+        this.debugMode = isDebugMode;
         this.highPerf = highPerf;
 
-        if (isDebugMode) {
+        if (this.debugMode) {
             // Init Stats.js
             this.stats = new Stats();
             this.stats.showPanel(0); // 0 = print fps
@@ -34,16 +35,14 @@ export default class Game {
         }
 
         // Game components
-        this.cameraManager = new CameraManager(isDebugMode);
-        this.controlsManager = new ControlsManager(isDebugMode);
-        this.geometryManager = new GeometryManager(isDebugMode);
-        this.modelManager = new ModelManager(isDebugMode);
-        this.lightingManager = new LightingManager(isDebugMode);
-        this.controlsManager = new ControlsManager(isDebugMode);
-        this.sceneManager = new SceneManager(isDebugMode);
+        this.cameraManager = new CameraManager(this.debugMode);
+        this.controlsManager = new ControlsManager(this.debugMode);
+        this.geometryManager = new GeometryManager(this.debugMode);
+        this.modelManager = new ModelManager(this.debugMode);
+        this.lightingManager = new LightingManager(this.debugMode);
+        this.sceneManager = new SceneManager(this.debugMode);
 
-        // Game core
-        this.init(); // Loop started inside
+        this.init();
 
         // Event listeners
         window.addEventListener('resize', this.resizeViewport.bind(this));
@@ -62,10 +61,18 @@ export default class Game {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
+        // 3D Models
         const models = [
             new Model('models/Fox.glb', .02),
             new Model('models/CesiumMilkTruck.glb', 1.5, {x: -5, y: 0, z: 0})
         ];
+
+        // Lights
+        this.lightingManager.createSpotLight({
+            intensity: 5,
+            position: {x: 20, y: 20, z: 0},
+            angle: .5
+        });
 
         this.modelManager.loadModels(models, () => {
             // Scene init
@@ -74,7 +81,7 @@ export default class Game {
             this.sceneManager.addThings(this.lightingManager.lights);
 
             // Camera init
-            this.cameraManager.setPosition(0, 5, 10);
+            this.cameraManager.setPosition(3, 5, 10);
             this.cameraManager.lookAtSomething(new THREE.Vector3(0, 0, 0));
 
             // Controls init
@@ -108,11 +115,11 @@ export default class Game {
     loop() {
         requestAnimationFrame(this.loop.bind(this));
 
-        this.stats.begin();
+        this.debugMode && this.stats.begin();
 
         // this.controlsManager.controls.update();
         this.renderer.render(this.sceneManager.scene, this.cameraManager.camera);
 
-        this.stats.end();
+        this.debugMode && this.stats.end();
     }
 }
