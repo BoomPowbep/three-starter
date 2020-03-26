@@ -42,7 +42,29 @@ export default class Game {
         this.lightingManager = new LightingManager(this.debugMode);
         this.sceneManager = new SceneManager(this.debugMode);
 
-        this.init();
+        let cover = document.getElementById("cover");
+        cover.addEventListener("click", () => {
+            cover.remove();
+
+            // On iOS13 + devices, ask for device orientation events permission
+            // https://medium.com/flawless-app-stories/how-to-request-device-motion-and-orientation-permission-in-ios-13-74fc9d6cd140
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // iOS 13+
+                DeviceOrientationEvent.requestPermission()
+                    .then(response => {
+                        if (response == 'granted') {
+                            this.init();
+                        }
+                        else {
+                            console.error("Device Orientation Event permission rejected by user: ", response);
+                        }
+                    })
+                    .catch(console.error)
+            } else {
+                // non iOS 13+
+                this.init();
+            }
+        });
 
         // Event listeners
         window.addEventListener('resize', this.resizeViewport.bind(this));
@@ -85,8 +107,8 @@ export default class Game {
             this.cameraManager.lookAtSomething(new THREE.Vector3(0, 0, 0));
 
             // Controls init
-            // this.controlsManager.initDeviceOrientation(this.cameraManager.camera);
-            this.controlsManager.initOrbitControls(this.cameraManager.camera, this.renderer.domElement);
+            this.controlsManager.initDeviceOrientation(this.cameraManager.camera);
+            // this.controlsManager.initOrbitControls(this.cameraManager.camera, this.renderer.domElement);
 
             // Start loop!
             this.loop();
@@ -117,7 +139,7 @@ export default class Game {
 
         this.debugMode && this.stats.begin();
 
-        // this.controlsManager.controls.update();
+        this.controlsManager.controls.update();
         this.renderer.render(this.sceneManager.scene, this.cameraManager.camera);
 
         this.debugMode && this.stats.end();
