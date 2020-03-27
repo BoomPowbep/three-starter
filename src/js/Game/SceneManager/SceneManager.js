@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {Model} from "../ModelManager/ModelManager";
 
 export default class SceneManager {
 

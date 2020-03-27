@@ -9,13 +9,14 @@ class Model {
     /**
      * Construction.
      * @param path
-     * @param scaleFactor
-     * @param position
+     * @param initialScaleFactor
+     * @param initialPosition
      */
-    constructor(path, scaleFactor = .01, position = {x: 0, y: 0, z: 0}) {
+    constructor(identifier, path, initialScaleFactor = .01, initialPosition = {x: 0, y: 0, z: 0}) {
+        this.identifier = identifier;
         this.path = path;
-        this.scaleFactor = scaleFactor;
-        this.position = position;
+        this.initialScaleFactor = initialScaleFactor;
+        this.initialPosition = initialPosition;
     }
 }
 
@@ -59,13 +60,16 @@ class ModelManager {
                 (object) => {
                     console.log("Loaded model from " + model.path, object);
 
-                    object.scene.scale.set(model.scaleFactor, model.scaleFactor, model.scaleFactor);
-                    object.scene.position.x = model.position.x;
-                    object.scene.position.y = model.position.y;
-                    object.scene.position.z = model.position.z;
+                    object.scene.scale.set(model.initialScaleFactor, model.initialScaleFactor, model.initialScaleFactor);
+                    object.scene.position.x = model.initialPosition.x;
+                    object.scene.position.y = model.initialPosition.y;
+                    object.scene.position.z = model.initialPosition.z;
 
                     // Shadow
                     object.scene.castShadow = true;
+
+                    // Add identifier
+                    object.scene.identifier = model.identifier;
 
                     this._registerModel(object.scene);
 
@@ -106,6 +110,17 @@ class ModelManager {
      */
     get models() {
         return this._models;
+    }
+
+    /**
+     * Returns the model identified by string.
+     * @param identifier
+     */
+    getModelReferenceByIdentifier(identifier) {
+        for (let model of this._models) {
+            if(model.identifier === identifier) return model; // Reference
+        }
+        return null;
     }
 }
 

@@ -32,6 +32,7 @@ export default class LightingManager {
      * @param decay
      */
     createSpotLight({
+                        identifier,
                         color = 0xFFFFFF,
                         intensity = 1,
                         position = {x: 0, y: 40, z: 0},
@@ -41,6 +42,9 @@ export default class LightingManager {
                         decay = 1.2
                     }) {
         let spotLight = new THREE.SpotLight(color, intensity);
+
+        // Adding identifier property
+        spotLight.identifier = identifier;
 
         spotLight.position.set(position.x, position.y, position.z);
 
@@ -89,5 +93,17 @@ export default class LightingManager {
      */
     get lights() {
         return this._lights;
+    }
+
+    /**
+     * Returns the light asked with identifier.
+     * @param identifier
+     * @returns
+     */
+    getLightReferenceByIdentifier(identifier) {
+        for (let light of this._lights) {
+            if(light.identifier === identifier) return light; // Reference
+        }
+        return null;
     }
 }

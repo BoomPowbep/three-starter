@@ -85,12 +85,13 @@ export default class Game {
 
         // 3D Models
         const models = [
-            new Model('models/Fox.glb', .02),
-            new Model('models/CesiumMilkTruck.glb', 1.5, {x: -5, y: 0, z: 0})
+            new Model('Fox', 'models/Fox.glb', .02),
+            new Model('IceTruck', 'models/CesiumMilkTruck.glb', 1.5, {x: -5, y: 0, z: 0})
         ];
 
         // Lights
         this.lightingManager.createSpotLight({
+            identifier: "MainSpotLight",
             intensity: 5,
             position: {x: 20, y: 20, z: 0},
             angle: .5
@@ -109,6 +110,10 @@ export default class Game {
             // Controls init
             this.controlsManager.initDeviceOrientation(this.cameraManager.camera);
             // this.controlsManager.initOrbitControls(this.cameraManager.camera, this.renderer.domElement);
+
+            // Get reference of fox and change position
+            let fox = this.modelManager.getModelReferenceByIdentifier('Fox');
+            fox.position.x = 2;
 
             // Start loop!
             this.loop();
@@ -139,7 +144,7 @@ export default class Game {
 
         this.debugMode && this.stats.begin();
 
-        this.controlsManager.controls.update();
+        this.controlsManager.controls.update(); // Only for device orientation controls
         this.renderer.render(this.sceneManager.scene, this.cameraManager.camera);
 
         this.debugMode && this.stats.end();
