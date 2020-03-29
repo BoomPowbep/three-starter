@@ -11,6 +11,8 @@ export default class GeometryManager {
     constructor(isDebugMode) {
         console.log('🔳 Geometry constructor');
 
+        this._debugMode = isDebugMode;
+
         // Array containing all geometries.
         this._geometries = [];
 
@@ -36,12 +38,18 @@ export default class GeometryManager {
     /**
      * Creates a basic ground surface.
      * @param identifier
+     * @param texturePath
      * @returns {Mesh}
      */
-    createBasicGroundSurface(identifier = "Unnamed") {
+    createBasicGroundSurface(identifier = "Unnamed", texturePath = "") {
         let groundShape = new THREE.PlaneGeometry(50, 50);
+
+        let groundTexture = new THREE.TextureLoader().load(texturePath);
+        groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+        groundTexture.repeat.set(25, 25);
+
         let groundMaterial = new THREE.MeshPhongMaterial({
-            color: 0xe67300,
+            map: groundTexture,
             side: THREE.FrontSide
         });
         let ground = new THREE.Mesh(groundShape, groundMaterial);
@@ -50,6 +58,49 @@ export default class GeometryManager {
         ground.identifier = identifier;
 
         return ground;
+    }
+
+    /**
+     * Create a cube skybox.
+     * @returns {Mesh}
+     */
+    createCubeSkybox() {
+
+        let imagePrefix = "textures/sky/orange/";
+        let directions  = ["front", "back", "up", "down", "right", "left"];
+        let imageSuffix = ".jpg";
+        let skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 );
+
+        let materialArray = [];
+        for (let i = 0; i < 6; i++)
+            materialArray.push( new THREE.MeshBasicMaterial({
+                map: THREE.ImageUtils.loadTexture( imagePrefix + directions[i] + imageSuffix ),
+                side: THREE.BackSide
+            }));
+        let skyMaterial = new THREE.MeshFaceMaterial( materialArray );
+
+        let skyboxMesh = new THREE.Mesh( skyGeometry, skyMaterial );
+        skyboxMesh.identifier = "Skybox";
+        return skyboxMesh;
+    }
+
+
+    /**
+     * Create a sphere skybox.
+     * @returns {Mesh}
+     */
+    createSphereSkybox() {
+        const skbName = 'ocean';
+        let skyBox = new THREE.SphereGeometry(100, 100, 100);
+        let skyBoxMaterial = new THREE.MeshBasicMaterial({
+            map: new THREE.TextureLoader().load(
+                'textures/sky/' + skbName + '.jpg'
+            ),
+            side: THREE.BackSide
+        });
+        let skyboxMesh = new THREE.Mesh(skyBox, skyBoxMaterial);
+        skyboxMesh.identifier = "Skybox";
+        return skyboxMesh;
     }
 
     /**

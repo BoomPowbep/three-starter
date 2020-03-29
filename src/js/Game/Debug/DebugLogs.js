@@ -29,6 +29,6 @@ export default class DebugLogs {
         // Remove after timeout
         setTimeout(() => {
             this._domContainer.removeChild(log);
-        }, 5000);
+        }, 3000);
     }
 }

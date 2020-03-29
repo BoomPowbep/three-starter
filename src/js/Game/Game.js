@@ -64,8 +64,7 @@ export default class Game {
                     .then(response => {
                         if (response == 'granted') {
                             this.init();
-                        }
-                        else {
+                        } else {
                             console.error("Device Orientation Event permission rejected by user: ", response);
                         }
                     })
@@ -96,7 +95,8 @@ export default class Game {
 
         // Basic geometries
         const geometries = [
-            this.geometryManager.createBasicGroundSurface("Ground"), // Ground
+            this.geometryManager.createBasicGroundSurface("Ground", "textures/grass_dirt.jpg"), // Ground
+            this.geometryManager.createCubeSkybox(), // Skybox
             this.geometryManager.createBasicShape({
                 identifier: "GreenCube",
                 position: {x: -.5, y: .5, z: 2.5}
@@ -118,7 +118,7 @@ export default class Game {
         // Lights
         this.lightingManager.createSpotLight({
             identifier: "MainSpotLight",
-            intensity: 5,
+            intensity: 1,
             position: {x: 20, y: 20, z: 0},
             angle: .5
         });
@@ -137,9 +137,6 @@ export default class Game {
 
             // Controls init
             this.controlsManager.initDeviceOrientation(this.cameraManager.camera);
-            // this.controlsManager.initOrbitControls(this.cameraManager.camera, this.renderer.domElement);
-
-            console.log(this.controlsManager.controls);
 
             // Get reference of fox and change position
             let fox = this.modelManager.getModelReferenceByIdentifier('Fox');
@@ -178,7 +175,7 @@ export default class Game {
             this.sceneManager.scene,
             this._mouse, this.cameraManager.camera
         );
-        this._debuglogs.addLog(touchedElementIdentifier);
+        this._debuglogs.addLog("RayCast -> " + touchedElementIdentifier);
         console.log(touchedElementIdentifier);
     }
 

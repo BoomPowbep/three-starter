@@ -5,6 +5,8 @@ html {
     overflow: hidden;
     background-color: $black-color;
 
+    touch-action: manipulation;
+
     #cover {
       position: absolute;
       top: 0;
@@ -30,7 +32,6 @@ html {
       left: 0;
       right: 0;
 
-      max-height: 100px;
       overflow: hidden;
 
       display: flex;
@@ -40,15 +41,14 @@ html {
       .debugLog {
         text-align: right;
         color: $white-color;
-        font-size: 15px;
-        line-height: 20px;
-        font-family: Roboto, serif;
+        font-size: 2em;
+        font-family: Verdana, serif;
 
         background: rgb(0, 0, 0);
         background: linear-gradient(90deg, rgba(0, 0, 0, .4) 0%, rgba(0, 0, 0, .8) 100%);
 
         width: 70%;
-        padding: 3px;
+        padding: .5em;
       }
     }
   }
