@@ -8,6 +8,7 @@ import GeometryManager from './GeometryManager/GeometryManager';
 import {ModelManager, Model} from './ModelManager/ModelManager';
 import LightingManager from './LightingManager/LightingManager';
 import SceneManager from './SceneManager/SceneManager';
+import RaycasterManager from "./RaycasterManager/RaycasterManager";
 
 export default class Game {
 
@@ -22,10 +23,14 @@ export default class Game {
     constructor(isDebugMode = true, highPerf = true) {
         console.log('🎮 Game constructor');
 
-        this.debugMode = isDebugMode;
-        this.highPerf = highPerf;
+        this._debugMode = isDebugMode;
+        this._highPerf = highPerf;
 
-        if (this.debugMode) {
+        this._clock = new THREE.Clock();
+
+        this._mouse = new THREE.Vector2();
+
+        if (this._debugMode) {
             // Init Stats.js
             this.stats = new Stats();
             this.stats.showPanel(0); // 0 = print fps
@@ -35,14 +40,16 @@ export default class Game {
         }
 
         // Game components
-        this.cameraManager = new CameraManager(this.debugMode);
-        this.controlsManager = new ControlsManager(this.debugMode);
-        this.geometryManager = new GeometryManager(this.debugMode);
-        this.modelManager = new ModelManager(this.debugMode);
-        this.lightingManager = new LightingManager(this.debugMode);
-        this.sceneManager = new SceneManager(this.debugMode);
+        this.cameraManager = new CameraManager(this._debugMode);
+        this.controlsManager = new ControlsManager(this._debugMode);
+        this.geometryManager = new GeometryManager(this._debugMode);
+        this.modelManager = new ModelManager(this._debugMode);
+        this.lightingManager = new LightingManager(this._debugMode);
+        this.sceneManager = new SceneManager(this._debugMode);
+        this._raycasterManager = new RaycasterManager(this._debugMode);
 
         let cover = document.getElementById("cover");
+
         cover.addEventListener("click", () => {
             cover.remove();
 
@@ -67,7 +74,8 @@ export default class Game {
         });
 
         // Event listeners
-        window.addEventListener('resize', this.resizeViewport.bind(this));
+        window.addEventListener('resize', this.resizeViewport.bind(this)); // Resize
+        window.addEventListener('touchend', this.onTouchEnd.bind(this)); // Get normalized position of mouse & do raycasr
     }
 
     /**
@@ -76,7 +84,7 @@ export default class Game {
     init() {
         // Renderer init
         this.renderer = new THREE.WebGLRenderer({
-            antialias: this.highPerf
+            antialias: this._highPerf
         });
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -105,18 +113,20 @@ export default class Game {
 
             // Camera init
             this.cameraManager.setPosition(3, 5, 10);
-            this.cameraManager.lookAtSomething(new THREE.Vector3(0, 0, 0));
+            this.cameraManager.lookAtSomething(new THREE.Vector3(0, 5, 0));
 
             // Controls init
             this.controlsManager.initDeviceOrientation(this.cameraManager.camera);
             // this.controlsManager.initOrbitControls(this.cameraManager.camera, this.renderer.domElement);
+
+            console.log(this.controlsManager.controls);
 
             // Get reference of fox and change position
             let fox = this.modelManager.getModelReferenceByIdentifier('Fox');
             fox.position.x = 2;
 
             // Start loop!
-            this.loop();
+            this._loop();
         });
     }
 
@@ -134,19 +144,34 @@ export default class Game {
         this.cameraManager.camera.updateProjectionMatrix();
     }
 
+    /**
+     * Touch event callback.
+     * @param event
+     */
+    onTouchEnd(event) {
+        // calculate mouse position in normalized device coordinates
+        // (-1 to +1) for both components
+        this._mouse.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
+        this._mouse.y = -(event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
+
+        const touchedElementIdentifier = this._raycasterManager.getTouchedElementIdentifier( this.sceneManager.scene, this._mouse, this.cameraManager.camera );
+        console.log(touchedElementIdentifier);
+    }
+
     // ------------------------------------------------------------------- RENDER
 
     /**
      * Render loop.
+     * @private
      */
-    loop() {
-        requestAnimationFrame(this.loop.bind(this));
+    _loop() {
+        requestAnimationFrame(this._loop.bind(this));
 
-        this.debugMode && this.stats.begin();
+        this._debugMode && this.stats.begin();
 
-        this.controlsManager.controls.update(); // Only for device orientation controls
+        this.controlsManager.controls.update(this._clock.getDelta()); // Only for device orientation controls
         this.renderer.render(this.sceneManager.scene, this.cameraManager.camera);
 
-        this.debugMode && this.stats.end();
+        this._debugMode && this.stats.end();
     }
 }

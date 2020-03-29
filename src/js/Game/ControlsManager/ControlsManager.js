@@ -12,7 +12,6 @@ export default class ControlsManager {
      */
     constructor(isDebugMode) {
         console.log('🕹 Controls constructor');
-
     };
 
     // ------------------------------------------------------------------- INITIALIZERS
