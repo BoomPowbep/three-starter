@@ -29,6 +29,7 @@ export default class RaycasterManager {
         // calculate objects intersecting the picking ray
         let intersects = this._raycaster.intersectObjects( scene.children, true );
 
+        // Default identifier
         let identifier = "Generic";
 
         if (intersects.length > 0) {
@@ -38,7 +39,7 @@ export default class RaycasterManager {
                 // -> parent (no identifier)
                 //      -> parent (no identifier)
                 //          -> parent (has identifier!)
-                let lastParent = intersects[i].object.parent;
+                let lastParent = intersects[i].object;
                 if(lastParent !== undefined) {
                     const maxIterations = 10;
                     parentsloop: for (let j = maxIterations; j > 0; j--) {

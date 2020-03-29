@@ -12,7 +12,7 @@ class Model {
      * @param initialScaleFactor
      * @param initialPosition
      */
-    constructor(identifier, path, initialScaleFactor = .01, initialPosition = {x: 0, y: 0, z: 0}) {
+    constructor(identifier = "Unnamed", path = "", initialScaleFactor = .01, initialPosition = {x: 0, y: 0, z: 0}) {
         this.identifier = identifier;
         this.path = path;
         this.initialScaleFactor = initialScaleFactor;

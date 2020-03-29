@@ -9,6 +9,7 @@ import {ModelManager, Model} from './ModelManager/ModelManager';
 import LightingManager from './LightingManager/LightingManager';
 import SceneManager from './SceneManager/SceneManager';
 import RaycasterManager from "./RaycasterManager/RaycasterManager";
+import DebugLogs from "./Debug/DebugLogs";
 
 export default class Game {
 
@@ -37,6 +38,8 @@ export default class Game {
             document.body.appendChild(this.stats.dom);
 
             this.gui = new dat.GUI();
+
+            this._debuglogs = new DebugLogs();
         }
 
         // Game components
@@ -91,6 +94,21 @@ export default class Game {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
+        // Basic geometries
+        const geometries = [
+            this.geometryManager.createBasicGroundSurface("Ground"), // Ground
+            this.geometryManager.createBasicShape({
+                identifier: "GreenCube",
+                position: {x: -.5, y: .5, z: 2.5}
+            }),
+            this.geometryManager.createBasicShape({
+                identifier: "BlueWall",
+                color: 0x4287f5,
+                position: {x: 0, y: 2.5, z: -11},
+                size: {x: 10, y: 5, z: 1}
+            })
+        ];
+
         // 3D Models
         const models = [
             new Model('Fox', 'models/Fox.glb', .02),
@@ -104,6 +122,8 @@ export default class Game {
             position: {x: 20, y: 20, z: 0},
             angle: .5
         });
+
+        this.geometryManager.loadGeometries(geometries);
 
         this.modelManager.loadModels(models, () => {
             // Scene init
@@ -154,7 +174,11 @@ export default class Game {
         this._mouse.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
         this._mouse.y = -(event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
 
-        const touchedElementIdentifier = this._raycasterManager.getTouchedElementIdentifier( this.sceneManager.scene, this._mouse, this.cameraManager.camera );
+        const touchedElementIdentifier = this._raycasterManager.getTouchedElementIdentifier(
+            this.sceneManager.scene,
+            this._mouse, this.cameraManager.camera
+        );
+        this._debuglogs.addLog(touchedElementIdentifier);
         console.log(touchedElementIdentifier);
     }
 

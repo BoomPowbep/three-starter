@@ -15,8 +15,6 @@ export default class GeometryManager {
         this._geometries = [];
 
         if (isDebugMode) this._createDebugElements();
-
-        this._createGroundSurface();
     };
 
     // ------------------------------------------------------------------- DEBUG
@@ -29,17 +27,18 @@ export default class GeometryManager {
         let axesHelper = new THREE.AxesHelper(2);
         this._registerGeometry(axesHelper);
 
-        // let gridHelper = new THREE.GridHelper(50, 50, 0xFFFFFF, 0xFFFFFF);
-        // this._registerGeometry(gridHelper);
+        let gridHelper = new THREE.GridHelper(50, 50, 0xFFFFFF, 0xFFFFFF);
+        this._registerGeometry(gridHelper);
     }
 
     // ------------------------------------------------------------------- MAKE
 
     /**
      * Creates a basic ground surface.
-     * @private
+     * @param identifier
+     * @returns {Mesh}
      */
-    _createGroundSurface() {
+    createBasicGroundSurface(identifier = "Unnamed") {
         let groundShape = new THREE.PlaneGeometry(50, 50);
         let groundMaterial = new THREE.MeshPhongMaterial({
             color: 0xe67300,
@@ -48,7 +47,44 @@ export default class GeometryManager {
         let ground = new THREE.Mesh(groundShape, groundMaterial);
         ground.receiveShadow = true;
         ground.rotation.x -= Math.PI / 2;
-        this._registerGeometry(ground);
+        ground.identifier = identifier;
+
+        return ground;
+    }
+
+    /**
+     * Creates a basic shape.
+     * @param identifier
+     * @param size
+     * @param position
+     * @param color
+     * @returns {Mesh}
+     */
+    createBasicShape({
+                        identifier = "Unnamed",
+                        size = {x: 1, y: 1, z: 1},
+                        position = {x: 0, y: 0, z: 0},
+                        color = 0x00ff00
+                    }) {
+        let geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
+        let material = new THREE.MeshBasicMaterial({color: color});
+        let cube = new THREE.Mesh(geometry, material);
+        cube.position.x = position.x;
+        cube.position.y = position.y;
+        cube.position.z = position.z;
+        cube.identifier = identifier;
+
+        return cube;
+    }
+
+    /**
+     * Register all created geometries.
+     * @param geometriesArray
+     */
+    loadGeometries(geometriesArray) {
+        for (let geometry of geometriesArray) {
+            this._registerGeometry(geometry);
+        }
     }
 
     /**
