@@ -10,6 +10,7 @@ import LightingManager from './LightingManager/LightingManager';
 import SceneManager from './SceneManager/SceneManager';
 import RaycasterManager from "./RaycasterManager/RaycasterManager";
 import DebugLogs from "./Debug/DebugLogs";
+import SoundManager from "./SoundManager/SoundManager";
 
 export default class Game {
 
@@ -48,6 +49,7 @@ export default class Game {
         this.geometryManager = new GeometryManager(this._debugMode);
         this.modelManager = new ModelManager(this._debugMode);
         this.lightingManager = new LightingManager(this._debugMode);
+        this.soundManager = new SoundManager(this._debugMode);
         this.sceneManager = new SceneManager(this._debugMode);
         this._raycasterManager = new RaycasterManager(this._debugMode);
 
@@ -141,6 +143,30 @@ export default class Game {
             // Get reference of fox and change position
             let fox = this.modelManager.getModelReferenceByIdentifier('Fox');
             fox.position.x = 2;
+
+            // Sound init
+            this.soundManager.setup(this.cameraManager.camera);
+            this.soundManager.createGlobalAudio(
+                "AmbientMusic",
+                'sounds/birds.mp3',
+                (status, sound) => {
+                    if (status) { // Configure sound
+                        sound.setLoop(true);
+                        sound.setVolume(0.1);
+                        sound.play();
+                    }
+                });
+            this.soundManager.createPositionalAudio(
+                this.modelManager.getModelReferenceByIdentifier('IceTruck'),
+                'sounds/car.wav',
+                (status, sound) => {
+                    if(status) {
+                        sound.setLoop(true);
+                        sound.setRefDistance(5);
+                        sound.setVolume(.5);
+                        sound.play();
+                    }
+                });
 
             // Start loop!
             this._loop();

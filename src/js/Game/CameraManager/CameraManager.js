@@ -36,6 +36,18 @@ export default class CameraManager {
         this._camera.lookAt(thing);
     }
 
+    // ------------------------------------------------------------------- SETTERS
+
+    /**
+     * Attach objects to the camera (audio for example).
+     * @param things []
+     */
+    attach(things) {
+        for(let thing in things) {
+            this._camera.add(thing);
+        }
+    }
+
     // ------------------------------------------------------------------- GETTERS
 
     /**
