@@ -50,7 +50,7 @@ class DebugPanel {
             this._wrapper.style.left = "0";
         }
         else {
-            this._wrapper.style.left = "-280px";
+            this._wrapper.style.left = "-250px";
         }
     }
 

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import DeviceOrientationControls from 'three-device-orientation';
 import OrbitControls from 'orbit-controls-es6';
+import { MapControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export default class ControlsManager {
 
@@ -31,6 +32,20 @@ export default class ControlsManager {
      */
     initDeviceOrientation(camera) {
         this._controls = new DeviceOrientationControls(camera);
+    }
+
+    initMapControls(camera, rendererDom) {
+        this._controls = new MapControls(camera, rendererDom);
+
+        this._controls.enableDamping = true;
+        this._controls.enableRotate = false;
+        this._controls.enableKeys = false;
+        this._controls.enableZoom = false;
+        // this._controls.minDistance = 5;
+        // this._controls.maxDistance = 10;
+
+        camera.zoom = 1;
+        camera.updateProjectionMatrix();
     }
 
     // ------------------------------------------------------------------- GETTERS

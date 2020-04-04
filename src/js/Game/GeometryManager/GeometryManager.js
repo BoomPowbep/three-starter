@@ -64,17 +64,16 @@ export default class GeometryManager {
      * Create a cube skybox.
      * @returns {Mesh}
      */
-    createCubeSkybox() {
+    createCubeSkybox(path) {
 
-        let imagePrefix = "textures/sky/orange/";
         let directions  = ["front", "back", "up", "down", "right", "left"];
         let imageSuffix = ".jpg";
-        let skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 );
+        let skyGeometry = new THREE.CubeGeometry( 50, 50, 50 );
 
         let materialArray = [];
         for (let i = 0; i < 6; i++)
             materialArray.push( new THREE.MeshBasicMaterial({
-                map: THREE.ImageUtils.loadTexture( imagePrefix + directions[i] + imageSuffix ),
+                map: THREE.ImageUtils.loadTexture( path + directions[i] + imageSuffix ),
                 side: THREE.BackSide
             }));
         let skyMaterial = new THREE.MeshFaceMaterial( materialArray );
@@ -155,5 +154,16 @@ export default class GeometryManager {
      */
     get geometries() {
         return this._geometries;
+    }
+
+    /**
+     * Returns the geometry identified by string.
+     * @param identifier
+     */
+    getGeometryReferenceByIdentifier(identifier) {
+        for (let geometry of this._geometries) {
+            if(geometry.identifier === identifier) return geometry; // Reference
+        }
+        return null;
     }
 }

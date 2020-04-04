@@ -11,8 +11,22 @@ export default class CameraManager {
     constructor(isDebugMode) {
         console.log('🎥 CameraManager constructor');
 
-        this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 5000);
+        this._perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 5000);
+        this._orthoCamera = new THREE.OrthographicCamera(window.innerWidth / -100, window.innerWidth / 100, window.innerHeight / 100, window.innerHeight / -100, 0.01, 5000);
+
+        this._isPerspective = true;
+        this._activeCamera = this._perspectiveCamera;
     };
+
+    /**
+     * Set the active camera (perspective or ortho)
+     * @param perspective
+     */
+    setCameraMode(perspective) {
+        this._isPerspective = perspective;
+        this._activeCamera = perspective ? this._perspectiveCamera : this._orthoCamera;
+        this._activeCamera.updateProjectionMatrix();
+    }
 
     // ------------------------------------------------------------------- CAMERA MOTION
 
@@ -23,9 +37,9 @@ export default class CameraManager {
      * @param z
      */
     setPosition(x = 0, y = 0, z = 0) {
-        this._camera.position.x = x;
-        this._camera.position.y = y;
-        this._camera.position.z = z;
+        this._activeCamera.position.x = x;
+        this._activeCamera.position.y = y;
+        this._activeCamera.position.z = z;
     }
 
     /**
@@ -33,7 +47,7 @@ export default class CameraManager {
      * @param thing
      */
     lookAtSomething(thing) {
-        this._camera.lookAt(thing);
+        this._activeCamera.lookAt(thing);
     }
 
     // ------------------------------------------------------------------- SETTERS
@@ -44,7 +58,7 @@ export default class CameraManager {
      */
     attach(things) {
         for(let thing in things) {
-            this._camera.add(thing);
+            this._activeCamera.add(thing);
         }
     }
 
@@ -52,9 +66,9 @@ export default class CameraManager {
 
     /**
      * Returns the camera object.
-     * @returns {PerspectiveCamera}
+     * @returns
      */
     get camera() {
-        return this._camera;
+        return this._activeCamera;
     }
 }

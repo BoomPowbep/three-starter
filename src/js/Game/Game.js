@@ -12,6 +12,7 @@ import RaycasterManager from "./RaycasterManager/RaycasterManager";
 import DebugLogs from "./Debug/DebugLogs";
 import SoundManager from "./SoundManager/SoundManager";
 import {DebugPanel, DebugButton} from "./Debug/DebugPanel";
+import {Vector3} from "three";
 
 export default class Game {
 
@@ -46,8 +47,36 @@ export default class Game {
 
             // Init debug buttons
             let debugButtonsArray = [
-                new DebugButton("To Map", () => {console.log("To map!")}),
-                new DebugButton("To Start", () => {console.log("To start!")}),
+                new DebugButton("To Map", () => {
+                    console.log("To map!");
+
+                    this.controlsManager.controls.dispose();
+
+                    // Switch camera
+                    this.cameraManager.setCameraMode(false);
+
+                    // Set new camera position
+                    this.cameraManager.setPosition(10, 20, 110);
+
+                    // Set map controls
+                    this.controlsManager.initMapControls(this.cameraManager.camera, this.renderer.domElement);
+                    this.controlsManager.controls.target = new Vector3(0, -.5, 90); // TODO create targetTo(obj) in ControlsManager
+
+                }),
+                new DebugButton("To Start", () => {
+                    console.log("To start!");
+
+                    this.controlsManager.controls.dispose();
+
+                    // Switch camera
+                    this.cameraManager.setCameraMode(true);
+
+                    // Set new camera position
+                    this.cameraManager.setPosition(0, 5, 10);
+
+                    // Set device orientation controls
+                    this.controlsManager.initDeviceOrientation(this.cameraManager.camera);
+                }),
             ];
             this._debugPanel.addButtons(debugButtonsArray);
         }
@@ -107,7 +136,7 @@ export default class Game {
         // Basic geometries
         const geometries = [
             this.geometryManager.createBasicGroundSurface("Ground", "textures/grass_dirt.jpg"), // Ground
-            this.geometryManager.createCubeSkybox(), // Skybox
+            this.geometryManager.createCubeSkybox("textures/sky/orange/"), // Skybox
             this.geometryManager.createBasicShape({
                 identifier: "GreenCube",
                 position: {x: -.5, y: .5, z: 2.5}
@@ -117,6 +146,24 @@ export default class Game {
                 color: 0x4287f5,
                 position: {x: 0, y: 2.5, z: -11},
                 size: {x: 10, y: 5, z: 1}
+            }),
+            // Map
+            this.geometryManager.createBasicShape({
+                identifier: "MapGround",
+                color: 0xa6a6a6,
+                position: {x: 0, y: -.5, z: 90},
+                size: {x: 30, y: 0, z: 50}
+            }),
+            this.geometryManager.createBasicShape({
+                identifier: "Building1",
+                color: 0x4287f5,
+                position: {x: 0, y: .5, z: 90}
+            }),
+            this.geometryManager.createBasicShape({
+                identifier: "Building2",
+                color: 0x4287f5,
+                position: {x: -5, y: .5, z: 80},
+                size: {x: 1, y: 5, z: 1}
             })
         ];
 
@@ -143,7 +190,7 @@ export default class Game {
             this.sceneManager.addThings(this.lightingManager.lights);
 
             // Camera init
-            this.cameraManager.setPosition(3, 5, 10);
+            this.cameraManager.setPosition(0, 5, 10);
             this.cameraManager.lookAtSomething(new THREE.Vector3(0, 5, 0));
 
             // Controls init
