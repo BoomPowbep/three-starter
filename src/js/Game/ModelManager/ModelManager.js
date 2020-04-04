@@ -67,6 +67,7 @@ class ModelManager {
 
                     // Shadow
                     object.scene.castShadow = true;
+                    object.scene.receiveShadow = true;
 
                     // Add identifier
                     object.scene.identifier = model.identifier;

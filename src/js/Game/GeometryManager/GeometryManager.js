@@ -124,6 +124,8 @@ export default class GeometryManager {
         cube.position.z = position.z;
         cube.identifier = identifier;
 
+        cube.castShadow = true;
+
         return cube;
     }
 

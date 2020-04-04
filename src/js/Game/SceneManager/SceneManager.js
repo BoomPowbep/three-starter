@@ -14,7 +14,6 @@ export default class SceneManager {
 
         this._scene = new THREE.Scene();
         this._scene.background = new THREE.Color( 0xFF69B4 );
-        // this._scene.fog = new THREE.Fog( 0xDCDCDC, .2, 35 );
     };
 
     // ------------------------------------------------------------------- MAKE

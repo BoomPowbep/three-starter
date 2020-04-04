@@ -54,8 +54,9 @@ export default class LightingManager {
         spotLight.decay = decay;
 
         spotLight.castShadow = true;
+        spotLight.shadowCameraVisible = true;
 
-        spotLight.shadow.camera.near = 500;
+        spotLight.shadow.camera.near = .01;
         spotLight.shadow.camera.far = 4000;
         spotLight.shadow.camera.fov = 30;
 
