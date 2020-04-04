@@ -20,7 +20,7 @@ export default class SoundManager {
 
 
     /**
-     * Do the setup. (After initialisations)
+     * Do the setup.
      * @param camera
      */
     setup(camera) {

@@ -26,6 +26,42 @@ html {
       }
     }
 
+    .debugPanelWrapper {
+      position: absolute;
+      top: 50%;
+      left: -280px;
+      transform: translateY(-50%);
+      width: 300px;
+      height: 20rem;
+      background-color: $black-color;
+
+      display: flex;
+
+      .debugButtonsWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        flex-grow: 1;
+
+        .debugButton {
+          color: $white-color;
+          font-size: 2rem;
+          padding: 1rem;
+          margin: .5rem;
+          border: 1px solid $white-color;
+          box-sizing: border-box;
+        }
+      }
+
+      .debugPanelHandle {
+        width: 30px;
+        height: 100%;
+
+        background-color: pink;
+      }
+    }
+
     .debugLogsWrapper {
       position: absolute;
       bottom: 0;

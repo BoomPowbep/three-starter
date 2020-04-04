@@ -11,6 +11,7 @@ import SceneManager from './SceneManager/SceneManager';
 import RaycasterManager from "./RaycasterManager/RaycasterManager";
 import DebugLogs from "./Debug/DebugLogs";
 import SoundManager from "./SoundManager/SoundManager";
+import {DebugPanel, DebugButton} from "./Debug/DebugPanel";
 
 export default class Game {
 
@@ -22,7 +23,7 @@ export default class Game {
      * @param isDebugMode
      * @param highPerf
      */
-    constructor(isDebugMode = true, highPerf = true) {
+    constructor(isDebugMode = true, highPerf = false) {
         console.log('🎮 Game constructor');
 
         this._debugMode = isDebugMode;
@@ -41,6 +42,14 @@ export default class Game {
             this.gui = new dat.GUI();
 
             this._debuglogs = new DebugLogs();
+            this._debugPanel = new DebugPanel();
+
+            // Init debug buttons
+            let debugButtonsArray = [
+                new DebugButton("To Map", () => {console.log("To map!")}),
+                new DebugButton("To Start", () => {console.log("To start!")}),
+            ];
+            this._debugPanel.addButtons(debugButtonsArray);
         }
 
         // Game components
@@ -72,7 +81,7 @@ export default class Game {
                     })
                     .catch(console.error)
             } else {
-                // non iOS 13+
+                // Not iOS 13+
                 this.init();
             }
         });
@@ -153,7 +162,7 @@ export default class Game {
                     if (status) { // Configure sound
                         sound.setLoop(true);
                         sound.setVolume(0.1);
-                        sound.play();
+                        // sound.play();
                     }
                 });
             this.soundManager.createPositionalAudio(
@@ -164,7 +173,7 @@ export default class Game {
                         sound.setLoop(true);
                         sound.setRefDistance(5);
                         sound.setVolume(.5);
-                        sound.play();
+                        // sound.play();
                     }
                 });
 
