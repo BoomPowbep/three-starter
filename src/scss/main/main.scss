@@ -58,7 +58,14 @@ html {
         width: 50px;
         height: 100%;
 
-        background-color: pink;
+        background-color: $black-color;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        fill: $white-color;
       }
     }
 
