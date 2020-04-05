@@ -32,6 +32,10 @@ export default class SoundManager {
 
     // ------------------------------------------------------------------- MAKE
 
+    createGenericAudio(identifier, path, callback) {
+
+    }
+
     /**
      * Creates a global audio source.
      * @param identifier

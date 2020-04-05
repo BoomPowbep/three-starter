@@ -224,8 +224,6 @@ export default class Game {
                     }
                 });
 
-            console.log(this.sceneManager.scene);
-
             // Start loop!
             this._loop();
         });
