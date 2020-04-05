@@ -1,6 +1,8 @@
 
 # Three Starter    
-A ThreeJS starter with watch & prod build.  
+A ThreeJS starter with watch & prod build. WIP... 
+
+This is used as a base project for [our Webgl project at Gobelins](https://github.com/BoomPowbep/gobelins_webgl).
   
 ## Setting up  
 First, install dependencies.  
